@@ -5,10 +5,10 @@
     "description": "API para la gestión de tortas y productos de panadería",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "https://dulezzuabakery.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/cakes/": {
@@ -112,8 +112,11 @@
       "get": {
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
