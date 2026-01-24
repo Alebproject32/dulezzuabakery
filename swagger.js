@@ -6,9 +6,9 @@ const doc = {
     description: "API para la gestión de tortas y productos de panadería",
     version: "1.0.0",
   },
-  host: "localhost:8080", // Luego lo cambiaremos a la URL de Render
+  host: "https://dulezzuabakery.onrender.com", // Luego lo cambiaremos a la URL de Render
   basePath: "/",
-  schemes: ["http"],
+  schemes: ["https"],
   definitions: {
     Cake: {
       name: "Chocolate cake",
