@@ -58,7 +58,7 @@ const updateBread = async (req, res) => {
 const deleteBread = async (req, res) => {
   // #swagger.tags = ['Breads']
   try {
-    const deletedBread = await Cake.findByIdAndDelete(req.params.id);
+    const deletedBread = await Bread.findByIdAndDelete(req.params.id);
     if (!deletedBread)
       return res.status(404).json({ message: "Bread not found" });
     res.status(200).json({ message: "Bread removed successfully" });
