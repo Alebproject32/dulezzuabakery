@@ -6,7 +6,7 @@ const doc = {
     description: "API para la gestión de tortas y productos de panadería",
     version: "1.0.0",
   },
-  host: "https://dulezzuabakery.onrender.com", // Luego lo cambiaremos a la URL de Render
+  host: "dulezzuabakery.onrender.com", // Luego lo cambiaremos a la URL de Render
   basePath: "/",
   schemes: ["https"],
   definitions: {

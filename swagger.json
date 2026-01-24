@@ -5,7 +5,7 @@
     "description": "API para la gestión de tortas y productos de panadería",
     "version": "1.0.0"
   },
-  "host": "https://dulezzuabakery.onrender.com",
+  "host": "dulezzuabakery.onrender.com",
   "basePath": "/",
   "schemes": [
     "https"
