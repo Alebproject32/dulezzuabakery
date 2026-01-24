@@ -1,0 +1,158 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DulezzuaBakery API",
+    "description": "API para la gestión de tortas y productos de panadería",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/cakes/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cakes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Cake information",
+            "schema": {
+              "$ref": "#/definitions/Cake"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/cakes/{id}": {
+      "put": {
+        "tags": [
+          "Cakes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Cake information",
+            "schema": {
+              "$ref": "#/definitions/Cake"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cakes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Cake": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Chocolate cake"
+        },
+        "flavor": {
+          "type": "string",
+          "example": "Vanilla and Chocolate"
+        },
+        "price": {
+          "type": "number",
+          "example": 30
+        },
+        "size": {
+          "type": "string",
+          "example": "Medium cake, 8 inches"
+        },
+        "servings": {
+          "type": "number",
+          "example": 20
+        },
+        "ingredients": {
+          "type": "array",
+          "example": [
+            "flour",
+            "eggs",
+            "chocolate"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string",
+          "example": "A deliciouse cake to share with family or friends."
+        },
+        "isAvailable": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    }
+  }
+}
