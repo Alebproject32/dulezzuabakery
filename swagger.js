@@ -20,6 +20,16 @@ const doc = {
       description: "A deliciouse cake to share with family or friends.",
       isAvailable: true,
     },
+    Bread: {
+      name: "Sourdough Bread",
+      type: ["Artisanal", "Industrial"],
+      price: 5.5,
+      weight: "600g",
+      ingredients: ["strength flour", "water", "salt", "sourdough"],
+      isVegan: true,
+      description: "Slow-fermented bread with a crispy crust.",
+      isFresh: true,
+    },
   },
 };
 

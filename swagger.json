@@ -107,6 +107,100 @@
           }
         }
       }
+    },
+    "/breads/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Breads"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Bread information",
+            "schema": {
+              "$ref": "#/definitions/Bread"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/breads/{id}": {
+      "put": {
+        "tags": [
+          "Breads"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Bread information",
+            "schema": {
+              "$ref": "#/definitions/Bread"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Breads"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -149,6 +243,57 @@
           "example": "A deliciouse cake to share with family or friends."
         },
         "isAvailable": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "Bread": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Sourdough Bread"
+        },
+        "type": {
+          "type": "array",
+          "example": [
+            "Artisanal",
+            "Industrial"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "price": {
+          "type": "number",
+          "example": 5.5
+        },
+        "weight": {
+          "type": "string",
+          "example": "600g"
+        },
+        "ingredients": {
+          "type": "array",
+          "example": [
+            "strength flour",
+            "water",
+            "salt",
+            "sourdough"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "isVegan": {
+          "type": "boolean",
+          "example": true
+        },
+        "description": {
+          "type": "string",
+          "example": "Slow-fermented bread with a crispy crust."
+        },
+        "isFresh": {
           "type": "boolean",
           "example": true
         }

@@ -1,6 +1,6 @@
 const Cake = require("../models/cake");
 
-// 1. OBTENER TODAS LAS TORTAS
+// 1. Get all the cakes
 const getAllCakes = async (req, res) => {
   try {
     const cakes = await Cake.find();
@@ -8,7 +8,7 @@ const getAllCakes = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error al obtener las tortas", error: error.message });
+      .json({ message: "Error obtaining the cakes", error: error.message });
   }
 };
 
@@ -25,10 +25,8 @@ const createCake = async (req, res) => {
     const savedCake = await newCake.save();
     res.status(201).json(savedCake);
   } catch (error) {
-    // Aquí Mongoose enviará el error si faltan campos obligatorios
-    res
-      .status(400)
-      .json({ message: "Error en la validación", error: error.message });
+    // Mongoose will send an error here if required fields are missing.
+    res.status(400).json({ message: "Validation error", error: error.message });
   }
 };
 
@@ -46,12 +44,10 @@ const updateCake = async (req, res) => {
       runValidators: true,
     });
     if (!updatedCake)
-      return res.status(404).json({ message: "Torta no encontrada" });
+      return res.status(404).json({ message: "Cake not found" });
     res.status(200).json(updatedCake);
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "Error al actualizar", error: error.message });
+    res.status(400).json({ message: "Error updating", error: error.message });
   }
 };
 
@@ -61,12 +57,10 @@ const deleteCake = async (req, res) => {
   try {
     const deletedCake = await Cake.findByIdAndDelete(req.params.id);
     if (!deletedCake)
-      return res.status(404).json({ message: "Torta no encontrada" });
-    res.status(200).json({ message: "Torta eliminada correctamente" });
+      return res.status(404).json({ message: "Cake not found" });
+    res.status(200).json({ message: "Cake removed successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error al eliminar", error: error.message });
+    res.status(500).json({ message: "Delete error", error: error.message });
   }
 };
 
