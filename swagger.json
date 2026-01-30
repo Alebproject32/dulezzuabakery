@@ -12,7 +12,7 @@
     "OAuth2": {
       "type": "oauth2",
       "flow": "implicit",
-      "authorizationUrl": "http://localhost:8080/login",
+      "authorizationUrl": "dulezzuabakery.onrender.com",
       "description": "Click Authorize to log in to GitHub before trying POST, PUT, or DELETE."
     }
   },
