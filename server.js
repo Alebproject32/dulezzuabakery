@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const routes = require("./routes");
+const passport = require("passport");
+const session = require("express-session");
+const GitHubStrategy = require("passport-github2").Strategy;
 
 dotenv.config();
 
@@ -12,20 +15,98 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // MIDDLEWARES
-app.use(express.json()); // ¡Asegúrate de tener esta línea antes de las rutas!
+app.use(express.json()); // ¡Be sure to get this line
 app.use(cors());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
+
+//Initialize
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Configurate GitHub strategy
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: process.env.GITHUB_CALLBACK_URL,
+    },
+    function (accessToken, refreshToken, profile, done) {
+      // Now, only pass user profile
+      return done(null, profile);
+    },
+  ),
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 // Routes
+app.get("/login", passport.authenticate("github", { scope: ["user:email"] }));
+
+// Ruote to callback (where GitHub will return you)
+app.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    failureRedirect: "/api-docs",
+    session: false,
+  }),
+  (req, res) => {
+    req.session.user = req.user; // keep the user in session
+    res.redirect("/api-docs"); // When loggen, we send it documentation
+  },
+);
+
+// Routes to close session
+app.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/api-docs");
+  });
+});
+
+// Simple route to verify the state on the browser
+app.get("/", (req, res) => {
+  res.send(
+    req.session.user !== undefined
+      ? `Logged in as ${req.session.user.displayName}`
+      : "Logged Out",
+  );
+});
+
+// General route
 app.use("/", routes);
 
 //Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// Drive global errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    message: err.message || "Something went wronge on the Dulezzua server",
+    error: process.env.NODE_ENV === "development" ? err : {},
+  });
+});
+
 // Connection
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log("✅ Conectado a MongoDB Atlas: dulezzuabakery");
+    console.log("✅ Connected MongoDB Atlas: dulezzuabakery");
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
     });

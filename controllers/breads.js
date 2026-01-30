@@ -1,19 +1,32 @@
 const Bread = require("../models/bread");
 
 // 1. Get all the breads
-const getAllBread = async (req, res) => {
+const getAllBread = async (req, res, next) => {
   try {
     const breads = await Bread.find();
     res.status(200).json(breads);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error obtaining the cakes", error: err.message });
+    next(err);
+  }
+};
+
+const getSingleBread = async (req, res, next) => {
+  try {
+    const bread = await Bread.findById(req.params.id);
+    if (!bread) {
+      return res.status(404).json({ message: "Bread not found" });
+    }
+    res.status(200).json(cake);
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
+    next(err);
   }
 };
 
 // 2. Make a bread (POST)
-const createBread = async (req, res) => {
+const createBread = async (req, res, next) => {
   // #swagger.tags = ['Breads']
   /* #swagger.parameters['obj'] = {
       in: 'body',
@@ -25,12 +38,17 @@ const createBread = async (req, res) => {
     const newBread = await bread.save();
     res.status(201).json(newBread);
   } catch (err) {
-    res.status(400).json({ message: "Validation error", error: err.message });
+    if (err.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ message: "Validation error", error: err.message });
+    }
+    next(err);
   }
 };
 
 // 3. Update a bread (PUT)
-const updateBread = async (req, res) => {
+const updateBread = async (req, res, next) => {
   // #swagger.tags = ['Breads']
   /* #swagger.parameters['obj'] = {
             in: 'body',
@@ -49,22 +67,35 @@ const updateBread = async (req, res) => {
     if (!updatedBread)
       return res.status(404).json({ message: "Bread not found" });
     res.status(200).json(updatedBread);
-  } catch (error) {
-    res.status(400).json({ message: "Error updating", error: error.message });
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
+    next(err);
   }
 };
 
 // 4. Delete a bread (DELETE)
-const deleteBread = async (req, res) => {
+const deleteBread = async (req, res, next) => {
   // #swagger.tags = ['Breads']
   try {
     const deletedBread = await Bread.findByIdAndDelete(req.params.id);
-    if (!deletedBread)
+    if (!deletedBread) {
       return res.status(404).json({ message: "Bread not found" });
+    }
     res.status(200).json({ message: "Bread removed successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Delete error", error: error.message });
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({ message: "Invalid Bread ID format" });
+    }
+    next(err);
   }
 };
 
-module.exports = { getAllBread, createBread, updateBread, deleteBread };
+module.exports = {
+  getAllBread,
+  getSingleBread,
+  createBread,
+  updateBread,
+  deleteBread,
+};

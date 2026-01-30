@@ -2,13 +2,24 @@
   "swagger": "2.0",
   "info": {
     "title": "DulezzuaBakery API",
-    "description": "API para la gestión de tortas y productos de panadería",
+    "description": "API for managing cakes and bakery products",
     "version": "1.0.0"
   },
   "host": "dulezzuabakery.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "https"
+  "schemes": ["https"],
+  "securityDefinitions": {
+    "OAuth2": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "http://localhost:8080/login",
+      "description": "Click Authorize to log in to GitHub before trying POST, PUT, or DELETE."
+    }
+  },
+  "security": [
+    {
+      "OAuth2": []
+    }
   ],
   "paths": {
     "/cakes/": {
@@ -24,9 +35,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Cakes"
-        ],
+        "tags": ["Cakes"],
         "description": "",
         "parameters": [
           {
@@ -50,9 +59,7 @@
     },
     "/cakes/{id}": {
       "put": {
-        "tags": [
-          "Cakes"
-        ],
+        "tags": ["Cakes"],
         "description": "",
         "parameters": [
           {
@@ -83,9 +90,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Cakes"
-        ],
+        "tags": ["Cakes"],
         "description": "",
         "parameters": [
           {
@@ -121,9 +126,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Breads"
-        ],
+        "tags": ["Breads"],
         "description": "",
         "parameters": [
           {
@@ -147,9 +150,7 @@
     },
     "/breads/{id}": {
       "put": {
-        "tags": [
-          "Breads"
-        ],
+        "tags": ["Breads"],
         "description": "",
         "parameters": [
           {
@@ -180,9 +181,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Breads"
-        ],
+        "tags": ["Breads"],
         "description": "",
         "parameters": [
           {
@@ -232,11 +231,7 @@
         },
         "ingredients": {
           "type": "array",
-          "example": [
-            "flour",
-            "eggs",
-            "chocolate"
-          ],
+          "example": ["flour", "eggs", "chocolate"],
           "items": {
             "type": "string"
           }
@@ -260,10 +255,7 @@
         },
         "type": {
           "type": "array",
-          "example": [
-            "Artisanal",
-            "Industrial"
-          ],
+          "example": ["Artisanal", "Industrial"],
           "items": {
             "type": "string"
           }
@@ -278,12 +270,7 @@
         },
         "ingredients": {
           "type": "array",
-          "example": [
-            "strength flour",
-            "water",
-            "salt",
-            "sourdough"
-          ],
+          "example": ["strength flour", "water", "salt", "sourdough"],
           "items": {
             "type": "string"
           }
