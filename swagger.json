@@ -7,9 +7,7 @@
   },
   "host": "dulezzuabakery.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "securityDefinitions": {
     "github_auth": {
       "type": "oauth2",
@@ -72,9 +70,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Cakes"
-        ],
+        "tags": ["Cakes"],
         "description": "",
         "parameters": [
           {
@@ -104,9 +100,7 @@
     },
     "/cakes/{id}": {
       "put": {
-        "tags": [
-          "Cakes"
-        ],
+        "tags": ["Cakes"],
         "description": "",
         "parameters": [
           {
@@ -114,6 +108,14 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Cake information",
+            "schema": {
+              "$ref": "#/definitions/Cake"
+            }
           }
         ],
         "responses": {
@@ -135,9 +137,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Cakes"
-        ],
+        "tags": ["Cakes"],
         "description": "",
         "parameters": [
           {
@@ -170,9 +170,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Breads"
-        ],
+        "tags": ["Breads"],
         "description": "",
         "parameters": [
           {
@@ -202,9 +200,7 @@
     },
     "/breads/{id}": {
       "put": {
-        "tags": [
-          "Breads"
-        ],
+        "tags": ["Breads"],
         "description": "",
         "parameters": [
           {
@@ -241,9 +237,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Breads"
-        ],
+        "tags": ["Breads"],
         "description": "",
         "parameters": [
           {
@@ -293,11 +287,7 @@
         },
         "ingredients": {
           "type": "array",
-          "example": [
-            "flour",
-            "eggs",
-            "chocolate"
-          ],
+          "example": ["flour", "eggs", "chocolate"],
           "items": {
             "type": "string"
           }
@@ -321,10 +311,7 @@
         },
         "type": {
           "type": "array",
-          "example": [
-            "Artisanal",
-            "Industrial"
-          ],
+          "example": ["Artisanal", "Industrial"],
           "items": {
             "type": "string"
           }
@@ -339,12 +326,7 @@
         },
         "ingredients": {
           "type": "array",
-          "example": [
-            "strength flour",
-            "water",
-            "salt",
-            "sourdough"
-          ],
+          "example": ["strength flour", "water", "salt", "sourdough"],
           "items": {
             "type": "string"
           }
