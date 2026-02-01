@@ -10,6 +10,17 @@ const doc = {
   host: "dulezzuabakery.onrender.com",
   basePath: "/",
   schemes: ["https"],
+  securityDefinitions: {
+    github_auth: {
+      type: "oauth2",
+      authorizationUrl: "https://github.com/login/oauth/authorize",
+      flow: "implicit",
+      scopes: {
+        read: "Read access",
+        write: "Write access",
+      },
+    },
+  },
   definitions: {
     Cake: {
       name: "Chocolate cake",
