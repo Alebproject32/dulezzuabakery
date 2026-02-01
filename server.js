@@ -15,7 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // MIDDLEWARES
-app.use(express.json()); // ¡Be sure to get this line
+app.use(express.json());
 app.use(cors());
 app.use(
   session({
@@ -60,11 +60,11 @@ app.get(
   "/github/callback",
   passport.authenticate("github", {
     failureRedirect: "/api-docs",
-    session: false,
+    session: true,
   }),
   (request, response) => {
-    request.session.user = request.user; // keep the user in session
-    response.redirect("/api-docs"); // When loggen, we send it documentation
+    request.session.user = request.user;
+    response.redirect("/api-docs");
   },
 );
 
