@@ -1,6 +1,6 @@
-const isAuthenticated = (req, res, next) => {
-  if (req.session.user === undefined) {
-    return res
+const isAuthenticated = (request, response, next) => {
+  if (request.session.user === undefined) {
+    return response
       .status(401)
       .json("You don´t have permisson. Please, initialize session.");
   }

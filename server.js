@@ -62,27 +62,27 @@ app.get(
     failureRedirect: "/api-docs",
     session: false,
   }),
-  (req, res) => {
-    req.session.user = req.user; // keep the user in session
-    res.redirect("/api-docs"); // When loggen, we send it documentation
+  (request, response) => {
+    request.session.user = request.user; // keep the user in session
+    response.redirect("/api-docs"); // When loggen, we send it documentation
   },
 );
 
 // Routes to close session
-app.get("/logout", function (req, res, next) {
-  req.logout(function (err) {
+app.get("/logout", function (request, response, next) {
+  request.logout(function (err) {
     if (err) {
       return next(err);
     }
-    res.redirect("/api-docs");
+    response.redirect("/api-docs");
   });
 });
 
 // Simple route to verify the state on the browser
-app.get("/", (req, res) => {
-  res.send(
-    req.session.user !== undefined
-      ? `Logged in as ${req.session.user.displayName}`
+app.get("/", (request, response) => {
+  response.send(
+    request.session.user !== undefined
+      ? `Logged in as ${request.session.user.displayName}`
       : "Logged Out",
   );
 });
@@ -94,9 +94,9 @@ app.use("/", routes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Drive global errors
-app.use((err, req, res, next) => {
+app.use((err, request, response, next) => {
   console.error(err.stack);
-  res.status(err.status || 500).json({
+  response.status(err.status || 500).json({
     message: err.message || "Something went wronge on the Dulezzua server",
     error: process.env.NODE_ENV === "development" ? err : {},
   });

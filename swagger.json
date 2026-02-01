@@ -2,35 +2,39 @@
   "swagger": "2.0",
   "info": {
     "title": "DulezzuaBakery API",
-    "description": "API for managing cakes and bakery products",
+    "description": "API for managing cakes and bakery products with API from BYU Pathway Worldwide course CSE341",
     "version": "1.0.0"
   },
   "host": "dulezzuabakery.onrender.com",
   "basePath": "/",
   "schemes": ["https"],
-  "securityDefinitions": {
-    "OAuth2": {
-      "type": "oauth2",
-      "flow": "implicit",
-      "authorizationUrl": "dulezzuabakery.onrender.com",
-      "description": "Click Authorize to log in to GitHub before trying POST, PUT, or DELETE."
-    }
-  },
-  "security": [
-    {
-      "OAuth2": []
-    }
-  ],
   "paths": {
+    "/login": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/cakes/": {
       "get": {
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -53,6 +57,12 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "412": {
+            "description": "Precondition Failed"
           }
         }
       }
@@ -67,14 +77,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "obj",
-            "in": "body",
-            "description": "Cake information",
-            "schema": {
-              "$ref": "#/definitions/Cake"
-            }
           }
         ],
         "responses": {
@@ -84,8 +86,14 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
+          },
+          "412": {
+            "description": "Precondition Failed"
           }
         }
       },
@@ -104,11 +112,11 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -119,9 +127,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -144,6 +149,12 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "412": {
+            "description": "Precondition Failed"
           }
         }
       }
@@ -175,8 +186,14 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
+          },
+          "412": {
+            "description": "Precondition Failed"
           }
         }
       },
@@ -195,11 +212,11 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -289,5 +306,7 @@
         }
       }
     }
-  }
+  },
+  "x-author": "Alejandro Perez - Bakery Project",
+  "x-project-status": "Completed validation and security logic"
 }

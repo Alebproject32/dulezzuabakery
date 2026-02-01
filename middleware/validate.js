@@ -1,10 +1,13 @@
 const { body, validationResult } = require("express-validator");
 
+// I was to be sure everything is correct for the bakery products.
 const cakeValidationRules = () => {
   return [
     body("name").notEmpty().withMessage("Name is required"),
     body("flavor").notEmpty().withMessage("Flavor is required"),
-    body("price").isNumeric().withMessage("Price must be a number"),
+    body("price")
+      .isNumeric()
+      .withMessage("Price must be a number, please don`t use letters."),
     body("servings").isInt({ min: 1 }).withMessage("Slices msut be at least 1"),
     body("isAvailable")
       .isBoolean()
@@ -27,17 +30,21 @@ const breadValidationRules = () => {
   ];
 };
 
-const validate = (req, res, next) => {
-  const errors = validationResult(req);
+// this function help me to catch errors from rules
+const validate = (request, response, next) => {
+  const errors = validationResult(request);
   if (errors.isEmpty()) {
     return next();
   }
   const extractedErrors = [];
+  // I am using map to push the errors into my array
   errors.array().map((err) => extractedErrors.push({ [err.path]: err.msg }));
 
-  return res.status(412).json({
+  console.log("OOps! Validation failed in the middleware!");
+
+  return response.status(412).json({
     success: false,
-    message: "Validation error",
+    message: "Validation error in datas",
     errors: extractedErrors,
   });
 };

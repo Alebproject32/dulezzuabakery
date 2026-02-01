@@ -1,32 +1,44 @@
 const Cake = require("../models/cake");
 
-// 1. Get all the cakes
-const getAllCakes = async (req, res, next) => {
+// 1. Getting the full list of cakes for the bakery
+// I prefer to keep my code organized by numbers 1-4 for better reading.
+const getAllCakes = async (request, response, next) => {
   try {
-    const cakes = await Cake.find();
-    res.status(200).json(cakes);
+    const allCakes = await Cake.find();
+    console.log("Cakes list requested successfully");
+    // Sending the result to the client
+    response.status(200).json(allCakes);
   } catch (err) {
+    console.error("I have a problem with your cakes list:", err);
     next(err);
   }
 };
 
-const getSingleCake = async (req, res, next) => {
+// Search for a specific cake using the ID
+const getSingleCake = async (request, response, next) => {
   try {
-    const cake = await Cake.findById(req.params.id);
-    if (!cake) {
-      return res.status(404).json({ message: "Cake not found" });
+    const cakeId = request.params.id;
+    const foundCake = await Cake.findById(cakeId);
+
+    if (!foundCake) {
+      return response.status(404).json({
+        message: "Oops! This cake is not in our display case (Not found)",
+      });
     }
-    rest.status(200).json(cake);
+    response.status(200).json(foundCake);
   } catch (err) {
     if (err.name === "CastError") {
-      return res.status(400).json({ message: "Invalid ID format" });
+      return response
+        .status(400)
+        .send("The ID you sent has a wrong format, please check it.");
     }
     next(err);
   }
 };
 
-// 2. Make a cake (POST)
-const createCake = async (req, res, next) => {
+// 2. Add a new cake to the database (POST)
+const createCake = async (request, response, next) => {
+  // Swagger tags help me to test this in the documentation
   // #swagger.tags = ['Cakes']
   /* #swagger.parameters['obj'] = {
             in: 'body',
@@ -34,57 +46,69 @@ const createCake = async (req, res, next) => {
             schema: { $ref: '#/definitions/Cake' }
     } */
   try {
-    const newCake = new Cake(req.body);
-    const savedCake = await newCake.save();
-    res.status(201).json(savedCake);
+    // Correcting req to request here to avoid the crash
+    const myNewCake = new Cake(request.body);
+    const savedResult = await myNewCake.save();
+
+    console.log("A new cake was created!");
+    response.status(201).json(savedResult);
   } catch (err) {
     if (err.name === "ValidationError") {
-      // Mongoose will send an error here if required fields are missing.
-      return res
-        .status(400)
-        .json({ message: "Validation error", error: err.message });
+      return response.status(400).json({
+        message: "Wait! Your cake data is incomplete. Please review it.",
+        error: err.message,
+      });
     }
     next(err);
   }
 };
 
-// 3. Update a cake (PUT)
-const updateCake = async (req, res, next) => {
+// 3. Update cake details (PUT)
+const updateCake = async (request, response, next) => {
   // #swagger.tags = ['Cakes']
-  /* #swagger.parameters['obj'] = {
-            in: 'body',
-            description: 'Cake information',
-            schema: { $ref: '#/definitions/Cake' }
-    } */
   try {
-    const updatedCake = await Cake.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+    const idToUpdate = request.params.id;
+    const updatedData = request.body;
+
+    const cakeUpdated = await Cake.findByIdAndUpdate(idToUpdate, updatedData, {
+      new: true, // This returns the cake AFTER the change
       runValidators: true,
     });
-    if (!updatedCake)
-      return res.status(404).json({ message: "Cake not found" });
-    res.status(200).json(updatedCake);
+
+    if (!cakeUpdated) {
+      return response
+        .status(404)
+        .json({ message: "I can't update a cake that doesn't exist" });
+    }
+
+    response.status(200).json(cakeUpdated);
   } catch (err) {
     if (err.name === "CastError") {
-      return res.status(400).json({ message: "Invalid ID format" });
+      return response
+        .status(400)
+        .json({ message: "That ID format is not valid for update" });
     }
     next(err);
   }
 };
 
-// 4. Delete a cake (DELETE)
-const deleteCake = async (req, res, next) => {
+// 4. Remove a cake from the system (DELETE)
+const deleteCake = async (request, response, next) => {
   // #swagger.tags = ['Cakes']
   try {
-    const deletedCake = await Cake.findByIdAndDelete(req.params.id);
-    if (!deletedCake) {
-      return res.status(404).json({ message: "Cake not found" });
+    const cakeToDelete = request.params.id;
+    const result = await Cake.findByIdAndDelete(cakeToDelete);
+
+    if (!result) {
+      return response
+        .status(404)
+        .json({ message: "The cake was not found in the system.." });
     }
-    res.status(200).json({ message: "Cake removed successfully" });
+
+    response.status(200).json({
+      message: "Done! The cake was removed from the database correctly.",
+    });
   } catch (err) {
-    if (err.name === "CastError") {
-      return res.status(400).json({ message: "Invalid Cake ID format" });
-    }
     next(err);
   }
 };

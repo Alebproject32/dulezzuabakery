@@ -3,10 +3,11 @@ const swaggerAutogen = require("swagger-autogen")();
 const doc = {
   info: {
     title: "DulezzuaBakery API",
-    description: "API para la gestión de tortas y productos de panadería",
+    description:
+      "API for managing cakes and bakery products with API from BYU Pathway Worldwide course CSE341",
     version: "1.0.0",
   },
-  host: "dulezzuabakery.onrender.com", // Luego lo cambiaremos a la URL de Render
+  host: "dulezzuabakery.onrender.com",
   basePath: "/",
   schemes: ["https"],
   definitions: {
@@ -34,6 +35,6 @@ const doc = {
 };
 
 const outputFile = "./swagger.json";
-const endpointsFiles = ["./routes/index.js"]; // Apunta a tu archivo de rutas principal
+const endpointsFiles = ["./routes/index.js"];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
