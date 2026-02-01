@@ -23,6 +23,18 @@ router.get(
   passport.authenticate("github"),
 );
 
+// When I login or enter in my API swagger. I will need to navegate between my endpoints
+router.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    failureRedirect: "/api-docs",
+    session: false,
+  }),
+  (request, response) => {
+    response.redirect("/api-docs");
+  },
+);
+
 // Logout route - Well, here I had to check the documentation for this part
 // because the syntax for the callback changed recently.
 router.get("/logout", function (request, response, next) {
