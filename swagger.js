@@ -13,7 +13,7 @@ const doc = {
   securityDefinitions: {
     github_auth: {
       type: "oauth2",
-      authorizationUrl: "https://dulezzuabakery.onrender.com/github/callback",
+      authorizationUrl: "dulezzuabakery.onrender.com/github/callback",
       flow: "implicit",
       scopes: {
         read: "Read access",
