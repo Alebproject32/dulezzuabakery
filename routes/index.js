@@ -2,8 +2,13 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-// 1. Documentation route
-router.use("/", require("./swagger"));
+// My interface with swagger in Browser
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../swagger.json");
+
+// 1.- I know these are the Documentation of my swagger.
+router.use("/api-docs", swaggerUi.serve);
+router.get("/api-docs", swaggerUi.setup(swaggerDocument));
 
 // 2. My Bakery Routes (Cakes and Breads)
 // I like to keep these separate for organization
