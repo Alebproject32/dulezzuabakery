@@ -21,12 +21,12 @@ const breadValidationRules = () => {
     body("type").notEmpty().withMessage("Type is required"),
     body("price").isNumeric().withMessage("Price must be a number"),
     body("weight")
-      .isInt({ min: 100 })
+      .matches(/^\d+\s?grs$/)
       .withMessage("Weight must be at least 100 grs"),
     body("ingredients")
       .notEmpty()
       .withMessage("You must typing at least 4 ingredients."),
-    body("isvegan").isBoolean().withMessage("You need to type True or False."),
+    body("isVegan").isBoolean().withMessage("You need to type True or False."),
   ];
 };
 
